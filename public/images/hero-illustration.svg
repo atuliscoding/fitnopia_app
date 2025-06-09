@@ -1,0 +1,30 @@
+<svg width="600" height="500" viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M300 50C200 50 120 130 120 230C120 330 200 410 300 410C400 410 480 330 480 230C480 130 400 50 300 50Z" fill="#E0E7FF"/>
+  <path d="M300 80C220 80 150 150 150 230C150 310 220 380 300 380C380 380 450 310 450 230C450 150 380 80 300 80Z" fill="#C7D2FE"/>
+  <path d="M300 110C240 110 180 170 180 230C180 290 240 350 300 350C360 350 420 290 420 230C420 170 360 110 300 110Z" fill="#A5B4FC"/>
+  <path d="M300 140C260 140 210 190 210 230C210 270 260 320 300 320C340 320 390 270 390 230C390 190 340 140 300 140Z" fill="#818CF8"/>
+  <path d="M300 170C280 170 240 210 240 230C240 250 280 290 300 290C320 290 360 250 360 230C360 210 320 170 300 170Z" fill="#6366F1"/>
+  <path d="M300 200C290 200 270 220 270 230C270 240 290 260 300 260C310 260 330 240 330 230C330 220 310 200 300 200Z" fill="#4F46E5"/>
+  <circle cx="300" cy="230" r="15" fill="#4338CA"/>
+  
+  <!-- Fitness Icons -->
+  <g transform="translate(100, 100)">
+    <circle cx="50" cy="50" r="30" fill="#4F46E5" opacity="0.2"/>
+    <path d="M40 50L60 50M35 45L65 45M35 55L65 55" stroke="#4F46E5" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  
+  <g transform="translate(400, 100)">
+    <circle cx="50" cy="50" r="30" fill="#4F46E5" opacity="0.2"/>
+    <path d="M50 35L50 65M45 40L55 60M55 40L45 60" stroke="#4F46E5" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  
+  <g transform="translate(100, 300)">
+    <circle cx="50" cy="50" r="30" fill="#4F46E5" opacity="0.2"/>
+    <path d="M35 50C35 42.268 41.268 36 49 36C56.732 36 63 42.268 63 50C63 57.732 56.732 64 49 64C41.268 64 35 57.732 35 50Z" stroke="#4F46E5" stroke-width="4"/>
+  </g>
+  
+  <g transform="translate(400, 300)">
+    <circle cx="50" cy="50" r="30" fill="#4F46E5" opacity="0.2"/>
+    <path d="M35 50L65 50M50 35L50 65" stroke="#4F46E5" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg> 

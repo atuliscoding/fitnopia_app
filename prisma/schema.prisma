@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String?       @unique
+  googleId      String?       @unique
+  password      String?       @db.VarChar(255)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  profile       Profile?
+  preferences   Preference[]
+  workoutPlans  WorkoutPlan[]
+  progress      Progress[]
+}
+
+model Profile {
+  id           String        @id @default(cuid())
+  age          Int
+  weight       Float
+  height       Int
+  activity     ActivityLevel
+  goals        Goal[]
+  restrictions String[]
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String        @unique
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  ACTIVE
+  VERY_ACTIVE
+}
+
+model Preference {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  category     String
+  value        Json
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WorkoutPlan {
+  id           String     @id @default(cuid())
+  name         String
+  description  String
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  sessions     Session[]
+  difficulty   Difficulty
+  duration     Int        // in minutes
+  type         String     // e.g. "Strength Training", "HIIT", etc.
+  frequency    Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Session {
+  id           String           @id @default(cuid())
+  workoutPlan  WorkoutPlan      @relation(fields: [planId], references: [id])
+  planId       String
+  exercises    SessionExercise[]
+  completedAt  DateTime?
+  feedback     Json?
+}
+
+model SessionExercise {
+  id           String    @id @default(cuid())
+  session      Session   @relation(fields: [sessionId], references: [id])
+  sessionId    String
+  exercise     Exercise  @relation(fields: [exerciseId], references: [id])
+  exerciseId   String
+  sets         Int
+  reps         Int
+  order        Int       // To maintain exercise order in the session
+}
+
+model Exercise {
+  id              String            @id @default(cuid())
+  name            String
+  description     String
+  instructions    String[]
+  tips            String[]
+  videoUrl        String
+  videoStartTime  Int?              // in seconds
+  videoEndTime    Int?              // in seconds
+  category        String[]
+  equipment       String[]
+  difficulty      Difficulty
+  muscleGroups    String[]
+  sessions        SessionExercise[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model Progress {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  weight      Float?
+  bodyFat     Float?
+  endurance   Json?
+  strength    Json?
+  createdAt   DateTime  @default(now())
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum Goal {
+  WEIGHT_LOSS
+  MUSCLE_GAIN
+  ENDURANCE
+  FLEXIBILITY
+  GENERAL_FITNESS
+}
