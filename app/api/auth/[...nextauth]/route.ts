@@ -1,8 +1,5 @@
 import NextAuth from 'next-auth';
-import { authOptions } from '../../../../lib/auth';
-
-// Use Node.js runtime instead of Edge
-export const runtime = 'nodejs';
+import { authOptions } from '@/lib/auth';
 
 const handler = NextAuth(authOptions);
 

@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const prisma = new PrismaClient();
 
 // Validate environment variables
 if (!supabaseUrl || !supabaseServiceKey) {
@@ -29,7 +32,32 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create user with Supabase Auth
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
+    });
+
+    if (existingUser) {
+      return NextResponse.json(
+        { error: 'User with this email already exists' },
+        { status: 400 }
+      );
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Create user in our database
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        name: name || '',
+        provider: 'credentials',
+      }
+    });
+
+    // Also create user in Supabase Auth for consistency (optional)
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
@@ -40,19 +68,16 @@ export async function POST(request: Request) {
     });
 
     if (authError) {
-      console.error('Signup error:', authError);
-      return NextResponse.json(
-        { error: authError.message },
-        { status: 400 }
-      );
+      console.warn('Supabase auth creation failed:', authError.message);
+      // Don't fail the request if Supabase fails, as we have our own user management
     }
 
     return NextResponse.json(
       {
         user: {
-          id: authData.user.id,
-          email: authData.user.email,
-          name: authData.user.user_metadata?.full_name,
+          id: user.id,
+          email: user.email,
+          name: user.name,
         },
       },
       { status: 201 }

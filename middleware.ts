@@ -5,12 +5,17 @@ import type { NextRequest } from 'next/server';
 // Add any paths that don't require authentication
 const publicPaths = [
   '/',
+  '/features',
+  '/about',
+  '/pricing',
   '/auth/signin',
   '/auth/signup',
   '/auth/error',
+  '/test-auth',
   '/api/auth/signin',
   '/api/auth/signup',
   '/api/auth/callback',
+  '/api/test-users',
 ];
 
 export async function middleware(request: NextRequest) {

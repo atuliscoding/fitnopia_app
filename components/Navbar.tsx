@@ -33,9 +33,31 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <Link 
               href="/" 
-              className="text-white font-bold text-xl hover:text-purple-300 transition-colors duration-300"
+              className="flex items-center space-x-3 group"
             >
-              Fitnopia
+              {/* Logo Icon */}
+              <div className="relative">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:shadow-purple-500/50 transition-all duration-300 group-hover:scale-110 logo-pulse">
+                  <svg 
+                    className="w-6 h-6 text-white" 
+                    fill="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    {/* Modern fitness dumbbell icon */}
+                    <path d="M6 10.5h1v3H6a1.5 1.5 0 0 1 0-3zM18 10.5a1.5 1.5 0 0 1 0 3h-1v-3h1z"/>
+                    <rect x="2" y="9" width="2" height="6" rx="1"/>
+                    <rect x="20" y="9" width="2" height="6" rx="1"/>
+                    <rect x="7" y="11" width="10" height="2" rx="1"/>
+                  </svg>
+                </div>
+                {/* Animated glow effect */}
+                <div className="absolute inset-0 w-10 h-10 bg-gradient-to-br from-purple-500 to-cyan-400 rounded-xl blur-md opacity-0 group-hover:opacity-40 transition-all duration-500"></div>
+              </div>
+              
+              {/* Brand Text */}
+              <span className="text-2xl fitnopia-brand gradient-text-enhanced">
+                Fitnopia
+              </span>
             </Link>
           </div>
           

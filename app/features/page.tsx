@@ -111,9 +111,11 @@ const pricingPlans = [
     period: 'forever',
     features: [
       'Basic AI workout plans',
-      'Standard progress tracking',
-      'Exercise library (limited)',
-      'Community access'
+      'Progress tracking dashboard',
+      'Exercise library (50+ exercises)',
+      'Community access',
+      'Mobile app access',
+      'Basic form guidance'
     ],
     cta: 'Begin Journey',
     highlighted: false,
@@ -121,14 +123,17 @@ const pricingPlans = [
   },
   {
     name: 'Neural Pro',
-    price: '$19.99',
+    price: '$14.99',
     period: 'per month',
     features: [
       'Advanced AI workout optimization',
-      'Real-time biometric analysis',
-      'Full holographic library',
-      'Precision nutrition AI',
-      'Neural community access'
+      'Unlimited workout plans',
+      'Full exercise library (500+ exercises)',
+      'Real-time form analysis',
+      'Nutrition tracking & insights',
+      'Advanced progress analytics',
+      'Priority support',
+      'Wearable device integration'
     ],
     cta: 'Evolve Now',
     highlighted: true,
@@ -136,14 +141,17 @@ const pricingPlans = [
   },
   {
     name: 'Quantum Elite',
-    price: '$49.99',
+    price: '$29.99',
     period: 'per month',
     features: [
       'Everything in Neural Pro',
-      'Personal quantum trainer',
-      'DNA-based optimization',
-      'Multi-dimensional sync',
-      'Consciousness coaching'
+      'Personal AI trainer',
+      'Custom meal planning',
+      '1-on-1 video consultations',
+      'Advanced biometric analysis',
+      'Recovery optimization',
+      'Competition preparation',
+      'White-glove support'
     ],
     cta: 'Transcend Reality',
     highlighted: false,
@@ -156,6 +164,23 @@ export default function Features() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
   const [isMounted, setIsMounted] = useState(false);
+  const [isAnnual, setIsAnnual] = useState(false);
+  
+  // Function to calculate display price based on billing cycle
+  const getDisplayPrice = (monthlyPrice: string) => {
+    if (monthlyPrice === '$0') return '$0';
+    
+    const monthly = parseFloat(monthlyPrice.replace('$', ''));
+    if (isAnnual) {
+      const annual = Math.round(monthly * 12 * 0.8); // 20% discount
+      return `$${annual}`;
+    }
+    return monthlyPrice;
+  };
+  
+  const getDisplayPeriod = () => {
+    return isAnnual ? 'per year' : 'per month';
+  };
   
   useEffect(() => {
     setIsMounted(true);
@@ -360,9 +385,30 @@ export default function Features() {
           <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
             Choose Your Evolution
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
             Select the perfect tier for your transformation journey. Each plan unlocks new dimensions of possibility.
           </p>
+          
+          {/* Billing Toggle */}
+          <div className="flex items-center justify-center mb-12">
+            <span className={`mr-3 ${!isAnnual ? 'text-white' : 'text-gray-400'}`}>Monthly</span>
+            <button
+              onClick={() => setIsAnnual(!isAnnual)}
+              className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  isAnnual ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className={`ml-3 ${isAnnual ? 'text-white' : 'text-gray-400'}`}>
+              Annual
+              <span className="ml-1 text-sm bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent font-semibold">
+                (Save 20%)
+              </span>
+            </span>
+          </div>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -397,8 +443,8 @@ export default function Features() {
                     {plan.name}
                   </h3>
                   <div className="mb-8">
-                    <span className="text-5xl font-black text-white">{plan.price}</span>
-                    <span className="text-gray-400 ml-2">/{plan.period}</span>
+                    <span className="text-5xl font-black text-white">{getDisplayPrice(plan.price)}</span>
+                    <span className="text-gray-400 ml-2">/{plan.price === '$0' ? plan.period : getDisplayPeriod()}</span>
                   </div>
                   
                   <ul className="space-y-4 mb-8 text-left">
