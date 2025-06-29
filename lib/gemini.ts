@@ -1,10 +1,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-if (!process.env.GOOGLE_API_KEY) {
-  throw new Error('Missing GOOGLE_API_KEY environment variable');
-}
+// Initialize GoogleGenerativeAI only if API key is available
+let genAI: GoogleGenerativeAI | null = null;
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+if (process.env.GOOGLE_API_KEY) {
+  genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+}
 
 export interface GeneratedExercise {
   name: string;
@@ -131,6 +132,10 @@ export function validateWorkoutPlan(plan: any): plan is GeneratedWorkout {
 }
 
 export async function generateWorkoutPlan(preferences: WorkoutPreferences = {}) {
+  if (!genAI) {
+    throw new Error('Google AI not initialized. Please check GOOGLE_API_KEY environment variable.');
+  }
+  
   const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
   const prompt = `Generate a detailed workout plan with the following preferences:

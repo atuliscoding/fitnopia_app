@@ -8,7 +8,7 @@ import Navbar from '../../../components/Navbar';
 
 export default function SignUp() {
   return (
-    <>
+    <div>
       <Navbar />
       <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-900 pt-20">
         <div className="max-w-md w-full space-y-8">
@@ -66,10 +66,9 @@ export default function SignUp() {
             </div>
 
             <SignUpForm />
-          </div>
+          </div>          </div>
         </div>
       </div>
     </div>
-    </>
   );
 } 

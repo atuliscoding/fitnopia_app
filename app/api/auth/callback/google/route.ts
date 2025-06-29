@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { SignJWT } from 'jose';
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
@@ -137,6 +141,6 @@ export async function GET(request: NextRequest) {
     return response;
   } catch (error) {
     console.error('Google OAuth callback error:', error);
-    return NextResponse.redirect('/auth/signin?error=callback_error');
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/auth/signin?error=callback_error`);
   }
 }

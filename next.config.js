@@ -1,17 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable experimental features for better Netlify compatibility
+  // Enable experimental features for better compatibility
   experimental: {
     serverComponentsExternalPackages: ['@supabase/supabase-js']
   },
   
-  // Image optimization settings for Netlify
+  // Image optimization settings - Vercel handles this well by default
   images: {
-    unoptimized: true, // Netlify handles image optimization
+    unoptimized: false, // Let Vercel handle image optimization
   },
-  
-  // Output configuration for Netlify
-  output: 'standalone',
   
   // Environment variables
   env: {

@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { SignJWT } from 'jose';
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
