@@ -130,7 +130,7 @@ function SignInContent() {
 
             <div className="mt-6 grid grid-cols-2 gap-3">
               <button
-                onClick={() => window.location.href = '/api/auth/google-signin'}
+                onClick={() => signIn('google', { callbackUrl })}
                 className="flex w-full items-center justify-center gap-3 rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
