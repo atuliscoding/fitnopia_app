@@ -4,13 +4,28 @@ import React, { useState, Suspense } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Navbar from '../../../components/Navbar';
 
 function SignInContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+  const oauthError = searchParams.get('error');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Handle OAuth errors
+  React.useEffect(() => {
+    if (oauthError) {
+      if (oauthError === 'google') {
+        setError('Google OAuth configuration error. Please check your settings.');
+      } else if (oauthError === 'github') {
+        setError('GitHub OAuth configuration error. Please check your settings.');
+      } else {
+        setError(`Authentication error: ${oauthError}`);
+      }
+    }
+  }, [oauthError]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,14 +57,16 @@ function SignInContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-3xl font-bold tracking-tight text-white">
-          Sign in to your account
-        </h2>
-      </div>
+    <div>
+      <Navbar />
+      <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-20">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <h2 className="text-center text-3xl font-bold tracking-tight text-white">
+            Sign in to your account
+          </h2>
+        </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
@@ -161,6 +178,7 @@ function SignInContent() {
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 }
